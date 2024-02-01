@@ -144,7 +144,7 @@ function getBook(id) {
 }
 
 //...............................Destructuring
-const book = getBook(1);
+const book = getBook(2);
 console.log(book);
 const { title, author, publicationDate, genres, hasMovieAdaptation, pages } =
   book;
@@ -172,3 +172,30 @@ const updateMovie = {
   pages: 1300,
 };
 console.log(updateMovie);
+
+const summary = `${title}, ${pages}-pages book was written by ${author} in ${publicationDate.split("-")[0]}.The move has been ${hasMovieAdaptation ? '' : 'not '}adapted to a movie.`;
+console.log(summary);
+
+const pageRange = pages > 1000 ? 'page numbers more than 1000.' : 'page numbers less than 1000.';
+console.log(pageRange);
+
+const getYear = str => str.split("-")[0];
+console.log(getYear(publicationDate));
+
+console.log(true && false);
+console.log(false && true);
+console.log('imran' && 'hsn');
+console.log('imran' && 0);
+console.log(0 && 'imran');
+
+console.log(true || false);
+console.log(false || true);
+console.log('imran' || 0);
+
+const translateBook = book.translations.chinese;
+console.log(translateBook || 'not translated.');
+
+const reviewCount = book.reviews.librarything.reviewsCount;
+console.log(reviewCount);
+console.log(reviewCount || 'no data');
+console.log(reviewCount ?? 'no data');
