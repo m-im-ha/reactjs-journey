@@ -144,7 +144,8 @@ function getBook(id) {
 }
 
 //...............................Destructuring
-const book = getBook(2);
+/*
+const book = getBook(3);
 console.log(book);
 const { title, author, publicationDate, genres, hasMovieAdaptation, pages } =
   book;
@@ -177,25 +178,66 @@ const summary = `${title}, ${pages}-pages book was written by ${author} in ${pub
 console.log(summary);
 
 const pageRange = pages > 1000 ? 'page numbers more than 1000.' : 'page numbers less than 1000.';
-console.log(pageRange);
+// console.log(pageRange);
 
 const getYear = str => str.split("-")[0];
-console.log(getYear(publicationDate));
+// console.log(getYear(publicationDate));
 
-console.log(true && false);
-console.log(false && true);
-console.log('imran' && 'hsn');
-console.log('imran' && 0);
-console.log(0 && 'imran');
+// console.log(true && false);
+// console.log(false && true);
+// console.log('imran' && 'hsn');
+// console.log('imran' && 0);
+// console.log(0 && 'imran');
 
-console.log(true || false);
-console.log(false || true);
-console.log('imran' || 0);
+// console.log(true || false);
+// console.log(false || true);
+// console.log('imran' || 0);
 
-const translateBook = book.translations.chinese;
-console.log(translateBook || 'not translated.');
+// const translateBook = book.translations.chinese;
+// console.log(translateBook || 'not translated.');
 
-const reviewCount = book.reviews.librarything.reviewsCount;
-console.log(reviewCount);
-console.log(reviewCount || 'no data');
-console.log(reviewCount ?? 'no data');
+// const reviewCount = book.reviews.librarything.reviewsCount;
+// console.log(reviewCount);
+// console.log(reviewCount || 'no data');
+// console.log(reviewCount ?? 'no data');
+
+function getTotalReview(item) {
+    const goodreads = item.reviews?.goodreads?.reviewsCount ?? 0;
+    const librarythings = item.reviews?.librarything?.reviewsCount ?? 0;
+    console.log(goodreads)
+    console.log(librarythings);
+    return goodreads + librarythings;
+}
+console.log(getTotalReview(book));
+*/
+
+const books = getBooks();
+console.log(books);
+
+const titles = books.map((el) => el.title);
+console.log(titles);
+
+const essentialData = books.map((el) =>( 
+  {
+    title: el.title,
+    author: el.author,
+  })
+);
+console.log(essentialData);
+
+const longBooks = books.filter(el=>el.pages > 500).filter(el=>el.hasMovieAdaptation);
+console.log(longBooks);
+
+const bookAdventure = books.filter(el=>el.genres.includes("adventure")).map(el=>el.title);
+console.log(bookAdventure);
+
+const pagesAllBooks = books.reduce((acc,el)=>acc+el.pages,0);
+console.log(pagesAllBooks);
+
+const random_array = [1,4,9,3,8,23,44,11,61,19];
+const random_array_sort = random_array.slice().sort((a,b)=>a-b);
+console.log(random_array_sort);
+// console.log(random_array);
+
+const sortBybooks = books.slice().sort((a,b)=>a.pages-b.pages).map(el=>el.title);
+console.log(sortBybooks);
