@@ -217,27 +217,61 @@ console.log(books);
 const titles = books.map((el) => el.title);
 console.log(titles);
 
-const essentialData = books.map((el) =>( 
-  {
-    title: el.title,
-    author: el.author,
-  })
-);
+const essentialData = books.map((el) => ({
+  title: el.title,
+  author: el.author,
+}));
 console.log(essentialData);
 
-const longBooks = books.filter(el=>el.pages > 500).filter(el=>el.hasMovieAdaptation);
+const longBooks = books
+  .filter((el) => el.pages > 500)
+  .filter((el) => el.hasMovieAdaptation);
 console.log(longBooks);
 
-const bookAdventure = books.filter(el=>el.genres.includes("adventure")).map(el=>el.title);
-console.log(bookAdventure);
+const bookAdventure = books
+  .filter((el) => el.genres.includes("adventure"))
+  .map((el) => el.title);
+// console.log(bookAdventure);
 
-const pagesAllBooks = books.reduce((acc,el)=>acc+el.pages,0);
-console.log(pagesAllBooks);
+const pagesAllBooks = books.reduce((acc, el) => acc + el.pages, 0);
+// console.log(pagesAllBooks);
 
-const random_array = [1,4,9,3,8,23,44,11,61,19];
-const random_array_sort = random_array.slice().sort((a,b)=>a-b);
-console.log(random_array_sort);
+const random_array = [1, 4, 9, 3, 8, 23, 44, 11, 61, 19];
+const random_array_sort = random_array.slice().sort((a, b) => a - b);
+// console.log(random_array_sort);
 // console.log(random_array);
 
-const sortBybooks = books.slice().sort((a,b)=>a.pages-b.pages).map(el=>el.title);
-console.log(sortBybooks);
+const sortBybooks = books
+  .slice()
+  .sort((a, b) => a.pages - b.pages)
+  .map((el) => el.title);
+// console.log(sortBybooks);
+
+const newBook = {
+  id: 6,
+  title: "Harry Potter and the Chamber of Secrets",
+  author: "J. K. Rolling",
+};
+const booksAfterAdd = [...books, newBook];
+// console.log(booksAfterAdd);
+
+const bookAfterDelete = booksAfterAdd.filter((el) => el.id !== 3);
+// console.log(bookAfterDelete);
+
+const bookAfterUpdate = bookAfterDelete.map((el) =>
+  el.id === 1 ? { ...el, pages: 1111 } : el
+);
+// console.log(bookAfterUpdate);
+
+// console.log(books);
+// fetch('https://jsonplaceholder.typicode.com/todos/').then(response=>response.json()).then(data=>console.log(data));
+// console.log('it will come first,then json.');
+
+async function getTodos(){
+  const response = await fetch('https://jsonplaceholder.typicode.com/todos/');
+  const data = await response.json();
+  console.log(data);
+}
+getTodos();
+
+
