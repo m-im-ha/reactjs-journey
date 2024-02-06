@@ -15,18 +15,18 @@ export default function App() {
 
   function handlePrev() {
     if (step > 1) {
-      return setStep(step - 1);
+      return setStep((s)=>s-1);
     }
     // setStep(`${step < 0 ? messages.length-1 : step-1}`);
   }
   function handleNext() {
     if (step < 3) {
-      return setStep(step + 1);
+      return setStep((s)=>s+1);
     }
   }
   return (
     <>
-      <button className="close" onClick={()=>setIsOpen(!isOpen)}>&times;</button>
+      <button className="close" onClick={()=>setIsOpen(is=>!is)}>&times;</button>
       {isOpen && (
         <div className="steps">
           <div className="numbers">
