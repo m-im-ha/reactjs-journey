@@ -9,20 +9,33 @@ import { useState } from "react";
 export default function App() {
   const [items, setItems] = useState([]);
 
+  console.log(items);
+
   function handleAddItems(item) {
-    setItems((elemenets) => [...elemenets, item]);
+    setItems((elements) => {
+      // console.log(elements);
+      // console.log(item);
+      return [...elements, item];
+    });
   }
 
   function handleDeleteItem(id) {
-    console.log(id);
-    setItems((elements) => elements.filter((item) => item.id !== id));
+    // console.log(id);
+    setItems((elements) =>
+      elements.filter((item) => {
+        // console.log(item);
+        // console.log(item.id);
+        return item.id !== id;
+      })
+    );
   }
 
   function handleToggleItems(id) {
     setItems((elements) =>
-      elements.map((item) =>
-        item.id === id ? { ...item, packed: !item.packed } : item
-      )
+      elements.map((item) => {
+        // console.log({...item,description:"fun",packed:!item.packed,id:888});
+        return item.id === id ? { ...item, packed: !item.packed } : item;
+      })
     );
   }
 
@@ -30,8 +43,12 @@ export default function App() {
     <div className="app">
       <Logo />
       <Form addItems={handleAddItems} />
-      <PackingList lists={items} deleteItem={handleDeleteItem} toggleItems={handleToggleItems} />
-      <Stats />
+      <PackingList
+        lists={items}
+        deleteItem={handleDeleteItem}
+        toggleItems={handleToggleItems}
+      />
+      <Stats lists={items} />
     </div>
   );
 }
@@ -51,7 +68,7 @@ function Form({ addItems }) {
     if (!description) return;
 
     const newItem = { quantity, description, packed: false, id: Date.now() };
-    console.log(newItem);
+    // console.log(newItem);
     addItems(newItem);
 
     setDescription("");
@@ -89,21 +106,54 @@ function Form({ addItems }) {
 }
 
 function PackingList({ lists, deleteItem, toggleItems }) {
+  // console.log(lists);
+  const [sortBy, setSortBy] = useState("input");
+  let sortedItems;
+
+  if (sortBy === "input") sortedItems = lists;
+
+  if (sortBy === "description")
+    sortedItems = lists
+      .slice()
+      .sort((a, b) => a.description.localeCompare(b.description));
+
+  if (sortBy === "packed")
+    sortedItems = lists
+      .slice()
+      .sort((a, b) => Number(a.packed) - Number(b.packed));
+
   return (
     <div className="list">
       <ul>
-        {lists.map((item) => (
-          <Item itemobj={item} deleteItem={deleteItem} toggleItems={toggleItems} key={item.id} />
+        {sortedItems.map((item) => (
+          <Item
+            itemobj={item}
+            deleteItem={deleteItem}
+            toggleItems={toggleItems}
+            key={item.id}
+          />
         ))}
       </ul>
+
+      <div className="actions">
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="input">Sort by input order</option>
+          <option value="description">Sort by description</option>
+          <option value="packed">Sort by packed status</option>
+        </select>
+      </div>
     </div>
   );
 }
 
-function Item({ itemobj, deleteItem,toggleItems }) {
+function Item({ itemobj, deleteItem, toggleItems }) {
   return (
     <li>
-      <input type="checkbox" value={itemobj.packed} onChange={() => toggleItems(itemobj.id)} />
+      <input
+        type="checkbox"
+        value={itemobj.packed}
+        onChange={() => toggleItems(itemobj.id)}
+      />
       <span style={itemobj.packed ? { textDecoration: "line-through" } : {}}>
         {itemobj.quantity} {itemobj.description}
       </span>
@@ -112,10 +162,26 @@ function Item({ itemobj, deleteItem,toggleItems }) {
   );
 }
 
-function Stats() {
+function Stats({ lists }) {
+  if (!lists.length) {
+    return (
+      <footer className="stats">
+        <em>Start adding some items to your packing lists.</em>
+      </footer>
+    );
+  }
+
+  const numItems = lists.length;
+  const numPacked = lists.filter((item) => item.packed).length;
+  const numPercentage = Math.round((numPacked / numItems) * 100);
+  console.log(numPercentage);
   return (
     <footer className="stats">
-      <em>You have X items on your list, and you already packed X (X%)</em>
+      <em>
+        {numPercentage === 100
+          ? "You got everything, Ready to go ✈"
+          : `You have ${numItems} items on your list, and you already packed ${numPacked} (${numPercentage}%)`}
+      </em>
     </footer>
   );
 }
