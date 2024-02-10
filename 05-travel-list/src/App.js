@@ -1,4 +1,4 @@
-import { useState } from "react";
+/* import { useState } from "react";
 
 // const initialItems = [
 //   { id: 1, description: "Passports", quantity: 2, packed: false },
@@ -39,6 +39,11 @@ export default function App() {
     );
   }
 
+  function handleClearAll(){
+    const confirmed = window.confirm("Are you sure you want to delete all?");
+    if(confirmed) setItems([]);
+  }
+
   return (
     <div className="app">
       <Logo />
@@ -47,6 +52,7 @@ export default function App() {
         lists={items}
         deleteItem={handleDeleteItem}
         toggleItems={handleToggleItems}
+        clearAll = {handleClearAll}
       />
       <Stats lists={items} />
     </div>
@@ -105,7 +111,7 @@ function Form({ addItems }) {
   );
 }
 
-function PackingList({ lists, deleteItem, toggleItems }) {
+function PackingList({ lists, deleteItem, toggleItems, clearAll }) {
   // console.log(lists);
   const [sortBy, setSortBy] = useState("input");
   let sortedItems;
@@ -141,6 +147,7 @@ function PackingList({ lists, deleteItem, toggleItems }) {
           <option value="description">Sort by description</option>
           <option value="packed">Sort by packed status</option>
         </select>
+        <button onClick={clearAll}>Clear List</button>
       </div>
     </div>
   );
@@ -182,6 +189,102 @@ function Stats({ lists }) {
           ? "You got everything, Ready to go ✈"
           : `You have ${numItems} items on your list, and you already packed ${numPacked} (${numPercentage}%)`}
       </em>
+    </footer>
+  );
+}
+*/
+
+import { useState } from "react";
+const initialItems = [
+  { id: 1, description: "Passports", quantity: 2, packed: false },
+  { id: 2, description: "Socks", quantity: 12, packed: false },
+  { id: 3, description: "Charger", quantity: 1, packed: true },
+];
+
+export default function App() {
+  return (
+    <div className="app">
+      <Logo />
+      <Form />
+      <PackingList />
+      <Stats />
+    </div>
+  );
+}
+
+function Logo() {
+  return <h1>🏝️ Far Away 🧳</h1>;
+}
+
+function Form() {
+  const [description, setDescription] = useState("");
+  const [selectNum, setselectNum] = useState(1);
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if(!description) return;
+
+    const newItem = {selectNum,description,packed:false,id:Date.now()};
+    console.log(newItem);
+
+    setselectNum(1);
+    setDescription("");
+  }
+
+  return (
+    <form className="add-form" onSubmit={handleSubmit}>
+      <h3>What do you need for your trip?</h3>
+      <select
+        value={selectNum}
+        onChange={(e) => setselectNum(Number(e.target.value))}
+      >
+        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+      <input
+        type="text"
+        placeholder="Items..."
+        value={description}
+        onChange={(e) => {
+          // console.log(e.target.value);
+          setDescription(e.target.value);
+        }}
+      />
+      <button>Add</button>
+    </form>
+  );
+}
+
+function PackingList() {
+  return (
+    <div className="list">
+      <ul>
+        {initialItems.map((item) => (
+          <Item element={item} key={item.id} />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Item({ element }) {
+  return (
+    <li>
+      <span style={element.packed ? { textDecoration: "line-through" } : {}}>
+        {element.quantity} {element.description}
+      </span>
+      <button>❌</button>
+    </li>
+  );
+}
+
+function Stats() {
+  return (
+    <footer className="stats">
+      <em>👜 You Have X items on your list, and you already packed X (X%)</em>
     </footer>
   );
 }
