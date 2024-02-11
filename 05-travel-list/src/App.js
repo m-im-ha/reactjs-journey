@@ -195,18 +195,24 @@ function Stats({ lists }) {
 */
 
 import { useState } from "react";
-const initialItems = [
-  { id: 1, description: "Passports", quantity: 2, packed: false },
-  { id: 2, description: "Socks", quantity: 12, packed: false },
-  { id: 3, description: "Charger", quantity: 1, packed: true },
-];
+// const initialItems = [
+//   { id: 1, description: "Passports", quantity: 2, packed: false },
+//   { id: 2, description: "Socks", quantity: 12, packed: false },
+//   { id: 3, description: "Charger", quantity: 1, packed: true },
+// ];
 
 export default function App() {
+  const [items, setItems] = useState([]);
+
+  function handleAddItems(item){
+    setItems(elements=>[...elements,item]);
+  }
+  
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form addItems={handleAddItems} />
+      <PackingList list={items} />
       <Stats />
     </div>
   );
@@ -216,9 +222,10 @@ function Logo() {
   return <h1>🏝️ Far Away 🧳</h1>;
 }
 
-function Form() {
+function Form({addItems}) {
   const [description, setDescription] = useState("");
   const [selectNum, setselectNum] = useState(1);
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -226,6 +233,7 @@ function Form() {
 
     const newItem = {selectNum,description,packed:false,id:Date.now()};
     console.log(newItem);
+    addItems(newItem);
 
     setselectNum(1);
     setDescription("");
@@ -258,11 +266,11 @@ function Form() {
   );
 }
 
-function PackingList() {
+function PackingList({list}) {
   return (
     <div className="list">
       <ul>
-        {initialItems.map((item) => (
+        {list.map((item) => (
           <Item element={item} key={item.id} />
         ))}
       </ul>
@@ -274,7 +282,7 @@ function Item({ element }) {
   return (
     <li>
       <span style={element.packed ? { textDecoration: "line-through" } : {}}>
-        {element.quantity} {element.description}
+        {element.selectNum} {element.description}
       </span>
       <button>❌</button>
     </li>
