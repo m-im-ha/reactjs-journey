@@ -25,28 +25,51 @@ export default function App() {
 }
 
 function Accordion({ data }) {
+  const [curOpen, setCurOpen] = useState(null);
+  // console.log(curOpen);
   return (
     <div className="accordion">
       {data.map((el, i) => (
-        <AcoordionItem num={i} title={el.title} text={el.text} key={el.title} />
+        <AcoordionItem
+          curOpen={curOpen}
+          onOpen={setCurOpen}
+          num={i}
+          title={el.title}
+          key={el.title}
+        >
+          {el.text}
+        </AcoordionItem>
+        
       ))}
+      <AcoordionItem
+          curOpen={curOpen}
+          onOpen={setCurOpen}
+          num={23}
+          title="Random Title"
+          key="random"
+        >
+          <p>"Bla Bla..."</p>
+        </AcoordionItem>
     </div>
   );
 }
 
-function AcoordionItem({ num, title, text }) {
-  const  [isOpen, setIsOpen]  = useState(false);
+function AcoordionItem({ num, title, curOpen, onOpen, children }) {
+  const isOpen = num === curOpen;
+  // console.log(curOpen);
+  // console.log(num);
+  // console.log(isOpen);
 
   function handleToggle() {
-    setIsOpen((isOpen) => !isOpen);
+    onOpen(isOpen ? null : num);
   }
 
   return (
-    <div className={`item ${isOpen ? "open":""}`} onClick={handleToggle}>
+    <div className={`item ${isOpen ? "open" : ""}`} onClick={handleToggle}>
       <p className="number">{num < 9 ? `0${num + 1}` : num + 1}</p>
       <p className="title">{title}</p>
       <p className="icon">{isOpen ? "-" : "+"}</p>
-      {isOpen && <div className="content-box">{text}</div>}
+      {isOpen && <div className="content-box">{children}</div>}
     </div>
   );
 }
