@@ -111,7 +111,7 @@ form {
   font-size: 1.6rem;
   display: grid;
   align-items: center;
-  gap: 1.2rem;
+  gap: 0.5rem;
 
   background-color: var(--color-lightest);
   border-radius: 7px;
@@ -156,7 +156,7 @@ select:focus {
 }
 
 form .button {
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
   grid-column: 2;
 }
 
