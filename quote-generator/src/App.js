@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Title />
+      <Quote />
+      <Button>Quote</Button>
+      <Button>Tweet</Button>
     </div>
   );
 }
 
-export default App;
+function Title() {
+  return <h1>Quote Generator</h1>;
+}
+
+function Quote() {
+  const [quote, setQuote] = useState([]);
+  return <h3>.........................................................</h3>;
+}
+
+function Button({ children }) {
+  return <button onClick={() => console.log(`clicked`)}>{children}</button>;
+}
