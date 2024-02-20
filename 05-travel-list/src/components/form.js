@@ -10,7 +10,7 @@ export default function Form({ addItems }) {
     if (!description) return;
 
     const newItem = { selectNum, description, packed: false, id: Date.now() };
-    console.log(newItem);
+    // console.log(newItem);
     addItems(newItem);
 
     setselectNum(1);

@@ -213,8 +213,11 @@ export default function App() {
   }
 
   function handleDeleteItem(id) {
-    console.log(id);
-    setItems((elements) => elements.filter((item) => item.id !== id));
+    // console.log(id);
+    setItems((elements) => {
+      // console.log(elements)
+      return elements.filter((item) => item.id !== id);
+    });
   }
 
   function handleToggleItems(id) {
