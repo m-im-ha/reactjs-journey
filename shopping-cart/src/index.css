@@ -1,4 +1,20 @@
 
+
+.container {
+  text-align: center;
+}
 .item-container{
   list-style: none;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.item {
+  margin-right: 50px;
+  font-size: 20px;
 }

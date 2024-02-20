@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function App() {
   return (
-    <div>
+    <div className="container">
       <Title />
       <AddItem />
     </div>
@@ -27,6 +27,7 @@ function AddItem() {
   function handleSubmit(e) {
     e.preventDefault();
     // setDisplayItem(displayItem);
+    if(!displayItem) return;
     const els = { displayItem, id: Date.now() };
     handleAddItems(els);
     setDisplayItem("");
@@ -37,7 +38,7 @@ function AddItem() {
   }
 
   return (
-    <div>
+    <div className="form">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -48,8 +49,8 @@ function AddItem() {
         <button>Add</button>
         <ul className="item-container">
           {item.map((element) => (
-            <div key={element.id}>
-              <li>{element.displayItem}</li>
+            <div className="items" key={element.id}>
+              <li className="item">{element.displayItem}</li>
               <button onClick={() => handleDeleteItem(element.id)}>❌</button>
             </div>
           ))}
