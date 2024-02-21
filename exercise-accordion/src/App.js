@@ -1,17 +1,16 @@
 import { useState } from "react";
-import "./styles.css";
 
 const faqs = [
   {
-    title: "Where are these chairs assembled?",
+    title: "One Piece",
     text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium, quaerat temporibus quas dolore provident nisi ut aliquid ratione beatae sequi aspernatur veniam repellendus.",
   },
   {
-    title: "How long do I have to return my chair?",
+    title: "Naruto",
     text: "Pariatur recusandae dignissimos fuga voluptas unde optio nesciunt commodi beatae, explicabo natus.",
   },
   {
-    title: "Do you ship to countries outside the EU?",
+    title: "Attack On Titan",
     text: "Excepturi velit laborum, perspiciatis nemo perferendis reiciendis aliquam possimus dolor sed! Dolore laborum ducimus veritatis facere molestias!",
   },
 ];
@@ -19,57 +18,44 @@ const faqs = [
 export default function App() {
   return (
     <div>
+      <h1>Accordion</h1>
       <Accordion data={faqs} />
     </div>
   );
 }
 
 function Accordion({ data }) {
-  const [curOpen, setCurOpen] = useState(null);
-  // console.log(curOpen);
   return (
-    <div className="accordion">
-      {data.map((el, i) => (
-        <AcoordionItem
-          curOpen={curOpen}
-          onOpen={setCurOpen}
+    <div>
+      {data.map((faq, i) => 
+      <AccordionItem
+          
+          title={faq.title}
           num={i}
-          title={el.title}
-          key={el.title}
-        >
-          {el.text}
-        </AcoordionItem>
-        
-      ))}
-      <AcoordionItem
-          curOpen={curOpen}
-          onOpen={setCurOpen}
-          num={23}
-          title="Random Title"
-          key="random"
-        >
-          <p>"Bla Bla..."</p>
-        </AcoordionItem>
+          key={i}
+        >{faq.text}</AccordionItem>
+      )}
     </div>
   );
 }
 
-function AcoordionItem({ num, title, curOpen, onOpen, children }) {
-  const isOpen = num === curOpen;
-  // console.log(curOpen);
-  // console.log(num);
-  // console.log(isOpen);
+function AccordionItem({ title, num, children }) {
+  const [isOpen, setIsOpen] = useState(false);
 
-  function handleToggle() {
-    onOpen(isOpen ? null : num);
+  function handleToggle(){
+    setIsOpen(!isOpen);
   }
 
   return (
-    <div className={`item ${isOpen ? "open" : ""}`} onClick={handleToggle}>
-      <p className="number">{num < 9 ? `0${num + 1}` : num + 1}</p>
-      <p className="title">{title}</p>
-      <p className="icon">{isOpen ? "-" : "+"}</p>
-      {isOpen && <div className="content-box">{children}</div>}
+    <div>
+      <div onClick={handleToggle} style={{ display: "flex" }}>
+        <p>{num < 9 ? `0${num + 1}` : num + 1}</p>
+        <h2>{title}</h2>
+        <button>
+          {isOpen ? "➖" : "➕"}
+        </button>
+      </div>
+      {isOpen && <p>{children}</p>}
     </div>
   );
 }
