@@ -27,14 +27,11 @@ export default function App() {
 function Accordion({ data }) {
   return (
     <div>
-      {data.map((faq, i) => 
-      <AccordionItem
-          
-          title={faq.title}
-          num={i}
-          key={i}
-        >{faq.text}</AccordionItem>
-      )}
+      {data.map((faq, i) => (
+        <AccordionItem title={faq.title} num={i} key={i}>
+          {faq.text}
+        </AccordionItem>
+      ))}
     </div>
   );
 }
@@ -42,7 +39,7 @@ function Accordion({ data }) {
 function AccordionItem({ title, num, children }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  function handleToggle(){
+  function handleToggle() {
     setIsOpen(!isOpen);
   }
 
@@ -51,9 +48,7 @@ function AccordionItem({ title, num, children }) {
       <div onClick={handleToggle} style={{ display: "flex" }}>
         <p>{num < 9 ? `0${num + 1}` : num + 1}</p>
         <h2>{title}</h2>
-        <button>
-          {isOpen ? "➖" : "➕"}
-        </button>
+        <button>{isOpen ? "➖" : "➕"}</button>
       </div>
       {isOpen && <p>{children}</p>}
     </div>
