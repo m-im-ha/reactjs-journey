@@ -17,16 +17,16 @@ StarRating.propTypes = {
   color: PropTypes.string,
   size: PropTypes.number,
   messages: PropTypes.array,
-  className:PropTypes.string,
+  className: PropTypes.string,
   onSetRating: PropTypes.func,
-}
+};
 
 export default function StarRating({
   maxRating = 5,
   color = "#fcc419",
   size = 32,
-  className="",
-  messages=[],
+  className = "",
+  messages = [],
   defaultRating = 0,
   onSetRating,
 }) {
@@ -34,7 +34,7 @@ export default function StarRating({
   const [tempRating, setTempRating] = useState(0);
   // console.log(tempRating)
 
-  function handleRating(rating){
+  function handleRating(rating) {
     setRating(rating);
     onSetRating(rating);
   }
@@ -55,18 +55,22 @@ export default function StarRating({
             full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
             onRate={() => handleRating(i + 1)}
             onHoverIn={() => setTempRating(i + 1)}
-            onHoverOut={() => setTempRating(0)}
+            onHoverOut={() => setRating(0)}
             color={color}
             size={size}
           />
         ))}
       </div>
-      <p style={textStyle}>{messages.length === maxRating ? messages[tempRating ? tempRating-1 : rating-1] : tempRating || rating || ""}</p>
+      <p style={textStyle}>
+        {messages.length === maxRating
+          ? messages[tempRating ? tempRating - 1 : rating - 1]
+          : tempRating || rating || ""}
+      </p>
     </div>
   );
 }
 
-function Star({ onRate, full, onHoverIn, onHoverOut, color, size}) {
+function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   const starStyle = {
     width: `${size}px`,
     height: `${size}px`,
