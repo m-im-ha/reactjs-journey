@@ -74,26 +74,30 @@ import { useState } from "react";
 
 export default function App(){
   const [passLength, setPassLength] = useState(6);
-  // console.log(passLength);
+  const [pass,setPass] = useState("");
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!'^+%&/()=?_#$½§{[]}|;:>÷`<.*-@é";
   const characters_length = characters.length;
-  let password = "";
   
-  for(let i=0;i<passLength;i++){
-    const random_character = characters[Math.round(Math.random()*characters_length)];
-    password += random_character;
-    console.log(password);
+  function pass_generator(){
+    let password = "";
+
+    for(let i=0;i<passLength;i++){
+      const random_index = Math.floor(Math.random()*characters_length);
+      password += characters[random_index];
+    }
+    setPass(password);
   }
 
   return (
     <div style={{textAlign:"center"}}>
       <h1>Password Generator</h1>
-      <h2>{password}</h2>
+      <h2>{pass}</h2>
+      {pass && <button style={{marginTop:"-100px"}} onClick={()=>navigator.clipboard.writeText(pass)}>Copy</button>}
       <div>
         <p>Password length</p>
-        <input type="number" value={passLength} onChange={(e)=>setPassLength(e.target.value)} />
+        <input type="number" value={passLength} onChange={(e)=>setPassLength(Number(e.target.value))} />
       </div>
-      <button style={{marginTop:"20px"}}>Password Generate</button>
+      <button style={{marginTop:"20px"}} onClick={pass_generator}>Password Generate</button>
     </div>
   )
 }
