@@ -75,6 +75,7 @@ import { useState } from "react";
 export default function App(){
   const [passLength, setPassLength] = useState(6);
   const [pass,setPass] = useState("");
+  const [showPassword,setShowPassword] = useState(false);
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!'^+%&/()=?_#$½§{[]}|;:>÷`<.*-@é";
   const characters_length = characters.length;
   
@@ -88,10 +89,22 @@ export default function App(){
     setPass(password);
   }
 
+  function passwordStrength(){
+    if(pass.length >= 10){
+      return "Strong";
+    } else if (pass.length >= 6) {
+      return "Medium";
+    } else {
+      return "Weak";
+    }
+  }
+
   return (
     <div style={{textAlign:"center"}}>
       <h1>Password Generator</h1>
-      <h2>{pass}</h2>
+      <h2>{showPassword ? pass : "*".repeat(passLength)}</h2>
+      {pass && <p>Password Strength : {passwordStrength()}</p>}
+      {pass && <button onClick={()=>setShowPassword(!showPassword)}>{showPassword ? "Hide" : "Show"}</button>}
       {pass && <button style={{marginTop:"-100px"}} onClick={()=>navigator.clipboard.writeText(pass)}>Copy</button>}
       <div>
         <p>Password length</p>
